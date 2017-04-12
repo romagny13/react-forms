@@ -19,11 +19,7 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ["", ".js", ".jsx"],
-        alias: {
-            'react': 'node_modules/react',
-            'react-dom': 'node_modules/react-dom'
-        }
+        extensions: ["", ".js", ".jsx"]
     },
     devServer: {
         contentBase: './src',
