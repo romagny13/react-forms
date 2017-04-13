@@ -40,7 +40,7 @@ const SimpleForm = ({ errors, model, onChange, onBlur, onSubmit, isSaving }) => 
             <div className="checkbox"><label><input type="checkbox" name="agree" checked={model['agree']} onChange={onChange} onBlur={onBlur} />Agree to conditions</label></div>
         </Field>
         <div className="form-group">
-            <input type="submit" value={isSaving ? "saving..." : "Submit"} className="btn btn-info btn-block text-uppercase" />
+            <input type="submit" value={isSaving ? "saving..." : "Register"} className="btn btn-info btn-block text-uppercase" />
         </div>
     </form>
 );
