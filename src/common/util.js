@@ -37,3 +37,7 @@ export function isTouched(touchedFields, name) {
     return touchedFields.hasOwnProperty(name);
 }
 
+export function setFormState(states, name, hasError, error) {
+    states[name] = { hasError, hasSuccess: !hasError, error };
+    return states;
+}

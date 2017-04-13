@@ -23,7 +23,7 @@ export function validateValue(value, validators, model) {
     };
 }
 
-export function validateAll(model, validators) {
+/*export function validateAll(model, validators) {
     let errors = {},
         hasOneOrMoreErrors = false;
 
@@ -45,7 +45,35 @@ export function validateAll(model, validators) {
         hasError: hasOneOrMoreErrors,
         errors
     };
+}*/
+
+export function validateAll(model, validators) {
+    let errors = {},
+        states = {},
+        hasOneOrMoreErrors = false;
+
+    for (let name in model) {
+        if (model.hasOwnProperty(name)) {
+            let fieldValidators = validators[name];
+            if (Array.isArray(fieldValidators)) {
+                let value = model[name];
+                const { hasError, error } = validateValue(value, fieldValidators, model);
+                states[name] = { hasError, hasSuccess: !hasError, error };
+                if (hasError) {
+                    errors[name] = error;
+                    hasOneOrMoreErrors = true;
+                }
+            }
+        }
+    }
+
+    return {
+        hasError: hasOneOrMoreErrors,
+        states,
+        errors
+    };
 }
+
 
 export function getElementValue(element) {
     let tagName = element.tagName;

@@ -3,10 +3,7 @@ import { isTouched, touch, touchAll, updateErrors, updateModel } from '../../com
 import { required, custom, isRequired, maxLength, minLength, pattern } from '../../common/validators';
 import { canValidateOnBlur, canValidateOnChange, validateAll, validateValue, getElementValue } from '../../common/fwk';
 
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { deepOrange100, deepOrange300 } from 'material-ui/styles/colors';
-import { MuiThemeProvider, TextField, SelectField, MenuItem, List, Checkbox, RadioButtonGroup, RadioButton, Subheader, FlatButton, RaisedButton } from 'material-ui';
-
+import MaterialUiForm from './MaterialUiForm';
 
 class MaterialUiPage extends Component {
     constructor(props) {
@@ -129,61 +126,18 @@ class MaterialUiPage extends Component {
         return (
             <div className="form-container">
                 <h2>Register</h2>
-                <form onSubmit={this.onSubmit} autoComplete="off">
-                    <div>
-                        <Subheader style={{ paddingLeft: 0 }}>Title</Subheader>
-                        <RadioButtonGroup name="title" label="Title" error={errors['title']} onChange={this.onCheckChange} asterisk>
-                            <RadioButton style={{ display: 'inline-block', width: '80px' }} label="Mr" value="Mr" checked={model['title'] === "Mr"} onBlur={this.onBlur} />
-                            <RadioButton style={{ display: 'inline-block', width: '80px' }} label="Mrs" value="Mrs" checked={model['title'] === "Mrs"} onBlur={this.onBlur} />
-                            <RadioButton style={{ display: 'inline-block', width: '80px' }} label="Ms" value="Ms" checked={model['title'] === "Ms"} onBlur={this.onBlur} />
-                        </RadioButtonGroup>
-                        {errors['title'] && <span className="error-text">{errors['title']}</span>}
-                    </div>
-
-                    <TextField name="firstname" value={model['firstname']} hintText="First Name" errorText={errors['firstname']} onChange={this.onChange} onBlur={this.onBlur} fullWidth />
-                    <TextField name="lastname" value={model['lastname']} hintText="Last Name" errorText={errors['lastname']} onChange={this.onChange} onBlur={this.onBlur} fullWidth />
-                    <TextField type="password" name="password" value={model['password']} hintText="Password" errorText={errors['password']} onChange={this.onChange} onBlur={this.onBlur} fullWidth />
-                    <TextField type="password" name="confirmPassword" value={model['confirmPassword']} hintText="Confirm password" errorText={errors['confirmPassword']} onChange={this.onChange} onBlur={this.onBlur} fullWidth />
-                    <SelectField floatingLabelText="List" name="list" value={model['list']} onChange={this.onSelectionChange} fullWidth>
-                        <MenuItem value="a" primaryText="A" />
-                        <MenuItem value="b" primaryText="B" />
-                        <MenuItem value="c" primaryText="C" />
-                    </SelectField>
-                    <List>
-                        <Subheader style={{ paddingLeft: 0 }}>Likes</Subheader>
-                        <Checkbox name="likes" label="Milk" value="Milk" checked={model['likes'].indexOf('Milk') !== -1} onCheck={this.onCheckChange} onBlur={this.onBlur} />
-                        <Checkbox name="likes" label="Cakes" value="Cakes" checked={model['likes'].indexOf('Cakes') !== -1} onCheck={this.onCheckChange} onBlur={this.onBlur} />
-                        <Checkbox name="likes" label="Nutella" value="Nutella" checked={model['likes'].indexOf('Nutella') !== -1} onCheck={this.onCheckChange} onBlur={this.onBlur} />
-                        {errors['likes'] && <span className="error-text">{errors['likes']}</span>}
-                    </List>
-
-                    <div>
-                        <Checkbox name="agree" label="Agree to conditions" checked={model['agree'] === true} onCheck={this.onCheckChange} onBlur={this.onBlur} />
-                        {errors['agree'] && <span className="error-text">{errors['agree']}</span>}
-                    </div>
-                    <div>
-                        <RaisedButton type="submit" label="Register" primary fullWidth />
-                    </div>
-                </form>
+                <MaterialUiForm
+                    model={this.state.model}
+                    errors={this.state.errors}
+                    onChange={this.onChange}
+                    onCheckChange={this.onCheckChange}
+                    onSelectionChange={this.onSelectionChange}
+                    onBlur={this.onBlur}
+                    onSubmit={this.onSubmit}
+                />
             </div>
         );
     }
 }
 
-const muiTheme = getMuiTheme({
-    palette: {
-        primary1Color: deepOrange300,
-        primary2Color: deepOrange300
-    }
-});
-
-class MaterialUiWrapperPage extends Component {
-    render() {
-        return (
-            <MuiThemeProvider muiTheme={muiTheme}>
-                <MaterialUiPage />
-            </MuiThemeProvider>
-        );
-    }
-}
-export default MaterialUiWrapperPage;
+export default MaterialUiPage;

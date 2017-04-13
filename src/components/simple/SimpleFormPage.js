@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { isTouched, touch, touchAll, updateErrors, updateModel } from '../../common/util';
 import { required, custom, isRequired, maxLength, minLength, pattern } from '../../common/validators';
 import { canValidateOnBlur, canValidateOnChange, validateAll, validateValue, getElementValue } from '../../common/fwk';
+import toastr from 'toastr';
 
-import ReactBootstrapForm from './ReactBootstrapForm';
+import SimpleForm from './SimpleForm';
 
 import '../../../node_modules/bootstrap/dist/css/bootstrap.css';
 
-class ReactBootstrapPage extends Component {
+class SimpleFormPage extends Component {
   constructor(props) {
     super(props);
     // inital state for rendering
@@ -22,7 +23,8 @@ class ReactBootstrapPage extends Component {
         list: 'b',
         title: ''
       },
-      errors: {}
+      errors: {},
+      isSaving: false
     };
     // config
     this.validators = {
@@ -105,27 +107,35 @@ class ReactBootstrapPage extends Component {
       this.setState({
         errors
       });
+      touchAll(this.touchedFields, model);
+      this.submitted = true;
     }
     else {
-      console.log('Ok', model);
+      // simulate saving
+      this.setState({ isSaving: true });
+      setTimeout(() => {
+        console.log('saving ...', model);
+        toastr.success('User Saved');
+        this.setState({ isSaving: false });
+        // => redirect
+      }, 2000);
     }
-    touchAll(this.touchedFields, model);
-    this.submitted = true;
   }
+
   render() {
-    const { model, errors } = this.state;
     return (
       <div className="form-container">
         <h2>Register</h2>
-        <ReactBootstrapForm
+        <SimpleForm
           model={this.state.model}
           errors={this.state.errors}
           onChange={this.onChange}
           onBlur={this.onBlur}
           onSubmit={this.onSubmit}
+          isSaving={this.state.isSaving}
         />
       </div>
     );
   }
 }
-export default ReactBootstrapPage;
+export default SimpleFormPage;
